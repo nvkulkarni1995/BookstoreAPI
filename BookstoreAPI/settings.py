@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!9yuffh$$e-jomo(@r#_!lnc(uztv4gmephra6dd#d)iw^sw49
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # * means all hosts, it basically allows any host mentioned in the db 
 
 
 # Application definition
@@ -40,13 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'books',
     'rest_framework',
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-    ),
+    ), 
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  #This tells Django to use the built-in pagination class that allows you to navigate pages.  
+    'PAGE_SIZE': 10,  # Adjust the page size as needed
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,8 +91,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookstore',
         'USER': 'bookstore_user',  # or 'root' if preferred
-        'PASSWORD': 'bookstore123',
-        'HOST': 'localhost',
+        'PASSWORD': 'docker_user',
+        'HOST': '172.23.208.1',
         'PORT': '3306',
     }
 }

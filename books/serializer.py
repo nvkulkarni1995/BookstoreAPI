@@ -24,3 +24,16 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'author', 'category', 'publisher', 'price_starting_with', 'publish_date_month', 'publish_date_year']
+
+    # Add validation for title and author
+    def validate_title(self, value):                                #validate_title: Ensures that the book title is provided. If not, it raises an error.
+        if not value:
+            raise serializers.ValidationError("Title is required.")
+        return value
+
+    def validate_author(self, value):                               #validate_author: Ensures that the author is provided. If not, it raises an error.
+
+        if not value:
+            raise serializers.ValidationError("Author is required.")
+        return value
+    

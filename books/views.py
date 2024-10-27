@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Author, Category, Publisher, Book
 from .serializer import AuthorSerializer, BookSerializer, CategorySerializer, PublisherSerializer
+from django_filters.rest_framework import DjangoFilterBackend  # Add this import
+
 
 # Author Views
 class AuthorList(generics.ListCreateAPIView):
@@ -25,9 +27,11 @@ class AuthorSearchByName(APIView):
 
 # Book Views
 class BookList(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
+    queryset = Book.objects.all().order_by('id')  # Add ordering by 'id' or any other field
     serializer_class = BookSerializer
-
+    filter_backends = [DjangoFilterBackend]  # Enables filtering
+    filterset_fields = ['author__name', 'price_starting_with']  # List of fields to filter by
+    
 class BookDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
